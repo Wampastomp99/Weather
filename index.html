@@ -24,7 +24,7 @@
                 </div>
                 <div class="row">
                     <form class="form-inline my-2 my-sm-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search for a City!" aria-label="Search" id="searchInput">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search for a City" aria-label="Search" id="searchInput">
                         <button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fas fa-cloud-sun"></i></button>
                     </form>
                 <div class="row" id="lastSearch">
@@ -34,6 +34,27 @@
     
                 </div>
             </div>
+            <div class="col-lg-8" id="allWeather">
+                <div class="row" id="weatherCard">
+                    <div class="card" style="width: 98%;" id="cardDisplay">
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card-body" id="card">
+                                  <h2 class="card-title" id="cityResult"></h2>
+                                  <p class="card-text" id="tempResult"></p>
+                                  <p class="card-text" id="humidityResult"></p>
+                                  <p class="card-text" id="windResult"></p>
+                                  <p class="card-tet" id="UVIndexResult"></p>
+                                </div>
+    
+                            </div>
+                            <div class="col-lg-4" id="mainIcon">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
     
 </body>
 </html>
