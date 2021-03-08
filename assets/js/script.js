@@ -1,0 +1,10 @@
+var cityResultText = $("#cityResult");
+var tempResultText = $("#tempResult");
+var humidityResult = $("#humidityResult");
+var windResultText = $("#windResult");
+var mainIcon =$("#mainIcon");
+var rowCards = $("#rowCards");
+var dayForecast = $("#row5day");
+var cardDisplay = $("#cardDisplay");
+var UVIndexText = $("#UVIndexResult");
+var buttonList = $("#buttonsList");
