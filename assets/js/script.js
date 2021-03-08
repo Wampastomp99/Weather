@@ -26,13 +26,25 @@ $(document).ready(function(){
 
 function currentWeather(userInput) {
     mainIcon.empty();
-    var queryUrl = url + userInput + APIKey;
+    var queryURL = url + userInput + APIKey;
     $.ajax({
-        url: queryUrl,
+        url: queryURL,
         method: "GET"
     }).then(function(response){
         var cityInfo = response.name;
-        var country = response.sys.country;
-        var temp
+        var country = response.sys.country; 
+        var temp = response.main.temp;
+        var humidity = response.main.humidity;
+        var wind = response.wind.speed;
+        var lat = response.coord.lat;
+        var lon = response.coord.lon;
+        var icon = response.weather[0].icon;
+        var UVindexURL = "https://api.openweathermap.org/data/2.5/uvi?" + "lat=" + lat + "&" + "lon=" + lon + "&APPID=123babda3bc150d180af748af99ad173";
+        var newImgMain = $("<img>").attr("class", "card-img-top").attr("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png");
+        mainIcon.append(newImgMain);
+        cityResultText.text(cityInfo + ", " + country + " " + today);
+        tempResultText.text("Temperature: " + temp + " ºC");
+        humidityResult.text("Humidity: " + humidity + " %");
+        windResultText.text("Wind Speed: " + wind + " MPH");
     })
 }
