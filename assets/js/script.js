@@ -19,8 +19,8 @@ var citiesArray = JSON.parse(localStorage.getItem("Saved City")) || [];
 
 $(document).ready(function(){
     var userInput = citiesArray[citiesArray.length - 1];
-    curentWeather(userInput);
-    forecastDate(userInput);
+    currentWeather(userInput);
+    forecast(userInput);
     lastSearch ();
 });
 
