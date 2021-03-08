@@ -12,8 +12,8 @@ var forecastDate = {};
 var forecastIcon = {};
 var forecastTemp = {};
 var forecastHum = {};
-var today = moment().format('DD' + "/" + 'MM' + '/' + 'YYYY');
-var APIKey = "&units=metric&APPID=f90ce9aeaf95d88d4e7a73c1f7196654";
+var today = moment().format('MM' + "/" + 'DD' + '/' + 'YYYY');
+var APIKey = "&units=imperial&APPID=f90ce9aeaf95d88d4e7a73c1f7196654";
 var url =  "https://api.openweathermap.org/data/2.5/weather?q=";
 var citiesArray = JSON.parse(localStorage.getItem("Saved City")) || [];
 
@@ -43,7 +43,7 @@ function currentWeather(userInput) {
         var newImgMain = $("<img>").attr("class", "card-img-top").attr("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png");
         mainIcon.append(newImgMain);
         cityResultText.text(cityInfo + ", " + country + " " + today);
-        tempResultText.text("Temperature: " + temp + " ºC");
+        tempResultText.text("Temperature: " + temp + " ºF");
         humidityResult.text("Humidity: " + humidity + " %");
         windResultText.text("Wind Speed: " + wind + " MPH");
 
@@ -75,7 +75,7 @@ function currentWeather(userInput) {
         dayForecast.empty();
         rowCards.empty();
         var fore5 = $("<h2>").attr("class", "forecast").text("5-Day Forecast: "); 
-        var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + userInput + "&units=metric&APPID=f90ce9aeaf95d88d4e7a73c1f7196654";
+        var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + userInput + "&units=imperial&APPID=f90ce9aeaf95d88d4e7a73c1f7196654";
         $.ajax({
             url: forecastURL,
             method: "GET"
@@ -97,12 +97,62 @@ function currentWeather(userInput) {
                 newCardBody.append(newH5);
                 var newImg = $("<img>").attr("class", "card-img-top").attr("src", "https://openweathermap.org/img/wn/" + forecastIcon[i] + "@2x.png");
                 newCardBody.append(newImg);
-                var newPTemp = $("<p>").attr("class", "card-text").text("Temp: " + Math.floor(forecastTemp[i]) + "ºC");
+                var newPTemp = $("<p>").attr("class", "card-text").text("Temp: " + Math.floor(forecastTemp[i]) + "ºF");
                 newCardBody.append(newPTemp);
                 var newPHum = $("<p>").attr("class", "card-text").text("Humidity: " + forecastHum[i] + " %");
                 newCardBody.append(newPHum);
                 dayForecast.append(fore5);
             };
         })
-
     }
+    function storeData (userInput) {
+        var userInput = $("#searchInput").val().trim().toLowerCase();
+        var containsCity = false;
+    
+        if (citiesArray != null) {
+    
+            $(citiesArray).each(function(x) {
+                if (citiesArray[x] === userInput) {
+                    containsCity = true;
+                }
+            });
+        }
+    
+        if (containsCity === false) {
+            citiesArray.push(userInput);
+        }
+    
+        localStorage.setItem("Saved City", JSON.stringify(citiesArray));
+    
+    }
+
+    function lastSearch () {
+        buttonList.empty()
+        for (var i = 0; i < citiesArray.length; i ++) {
+            var newButton = $("<button>").attr("type", "button").attr("class","savedBtn btn btn-secondary btn-lg btn-block");
+            newButton.attr("data-name", citiesArray[i])
+            newButton.text(citiesArray[i]);
+            buttonList.prepend(newButton);
+        }
+        $(".savedBtn").on("click", function(event){
+            event.preventDefault();
+            var userInput = $(this).data("name");
+            currentWeather(userInput);
+            forecast(userInput);
+        })
+    
+    }
+    
+    $(".btn").on("click", function (event){
+        event.preventDefault();
+        if ($("#searchInput").val() === "") {
+        alert("Please type a userInput to know the current weather");
+        } else
+        var userInput = $("#searchInput").val().trim().toLowerCase();
+        currentWeather(userInput);
+        forecast(userInput);
+        storeData();
+        lastSearch();
+        $("#searchInput").val("");
+    
+    })
