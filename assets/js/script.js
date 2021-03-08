@@ -46,5 +46,27 @@ function currentWeather(userInput) {
         tempResultText.text("Temperature: " + temp + " ºC");
         humidityResult.text("Humidity: " + humidity + " %");
         windResultText.text("Wind Speed: " + wind + " MPH");
+
+        $.ajax({
+            url: UVindexURL,
+            method: "GET"
+        }).then(function(uvIndex){
+            var UV = uvIndex.value;
+            var colorUV;
+            if (UV <= 3) {
+                colorUV = "green";
+            } else if (UV >= 3 & UV <= 6) {
+                colorUV = "yellow";
+            } else if (UV >= 6 & UV <= 8) {
+                colorUV = "orange";
+            } else {
+                colorUV = "red";
+            }
+            UVIndexText.empty();
+            var UVResultText = $("<p>").attr("class", "card-text").text("UV Index: ");
+            UVResultText.append($("<span>").attr("class", "uvindex").attr("style", ("background-color: " + colorUV)).text(UV))
+            UVIndexText.append(UVResultText);
+            cardDisplay.attr("style", "display: flex; width: 98%");
+        })    
     })
-}
+    }
